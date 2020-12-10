@@ -3,3 +3,7 @@ application/User.js
 application/Viewport.js
 
 ui/control/EMail.js
+ui/control/XML.js
+ui/control/Youtube.js
+
+../../../lib/js/prism.js
