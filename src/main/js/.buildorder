@@ -5,5 +5,6 @@ application/Viewport.js
 ui/control/EMail.js
 ui/control/XML.js
 ui/control/Youtube.js
+ui/control/AudioPlayer.js
 
 ../../../lib/js/prism.js
