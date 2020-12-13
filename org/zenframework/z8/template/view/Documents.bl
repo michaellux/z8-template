@@ -86,6 +86,7 @@ public class Documents extends Document {
 	[ui "org.zenframework.z8.template.controls.EMail"] email;
 	[ui "org.zenframework.z8.template.controls.XML"] xml;
 	[ui "org.zenframework.z8.template.controls.Youtube"] youtube;
+	[ui "org.zenframework.z8.template.controls.AudioPlayer"] doc;
 
 	/* Массив names определяет перечень полей, отображаемых в левом списке в режиме формы */
 	names = { createdAt, fullName };
