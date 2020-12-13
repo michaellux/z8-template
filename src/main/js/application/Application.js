@@ -9,7 +9,8 @@ Application.viewportCls = 'org.zenframework.z8.template.Viewport';
 Z8.apply(Application.subclasses, {
 'org.zenframework.z8.template.controls.EMail': 'org.zenframework.z8.template.controls.EMail',
 'org.zenframework.z8.template.controls.XML': 'org.zenframework.z8.template.controls.XML',
-'org.zenframework.z8.template.controls.Youtube': 'org.zenframework.z8.template.controls.Youtube'
+'org.zenframework.z8.template.controls.Youtube': 'org.zenframework.z8.template.controls.Youtube',
+'org.zenframework.z8.template.controls.AudioPlayer': 'org.zenframework.z8.template.controls.AudioPlayer'
 });
 
 // Поведение списков-деревьев по умолчанию
