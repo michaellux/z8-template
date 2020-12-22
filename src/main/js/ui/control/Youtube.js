@@ -7,6 +7,15 @@
 Z8.define('org.zenframework.z8.template.controls.Youtube', {
 	// Имя наследуемого класса
 	extend: 'Z8.form.field.Text',
+	
+	setValue: function(value, displayValue) {
+		this.callParent(value, displayValue);
+		var youtube = DOM.selectNode('#youtube-preview');
+		if (youtube !== null) {
+			youtube.setAttribute("src",`https://www.youtube.com/embed/${this.getYouTubeId(this.getValue())}`);
+		}
+	},
+
 	getYouTubeId: function(url) {
 		/*http://jsfiddle.net/isherwood/cH6e8/*/
 		var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
@@ -18,6 +27,7 @@ Z8.define('org.zenframework.z8.template.controls.Youtube', {
 	        return 'error';
 	    }
 	},
+	
 	onInput: function(event, target) {
 		var dom = this.getDom();
 		var target = event.target;
@@ -25,6 +35,7 @@ Z8.define('org.zenframework.z8.template.controls.Youtube', {
 		this.setValue(value);
 		dom.querySelector('#youtube-preview').setAttribute("src",`https://www.youtube.com/embed/${this.getYouTubeId(value)}`);
 	},
+	
 	htmlMarkup: function() {
 		var url = 'https://www.youtube.com/embed/K-xC_2UM_Xs';
 		
@@ -33,5 +44,5 @@ Z8.define('org.zenframework.z8.template.controls.Youtube', {
 		var markup = this.callParent();
 		markup.cn.push(this.iframe);
 		return markup;
-	}
+	},
 });
