@@ -14,6 +14,14 @@ Z8.define('org.zenframework.z8.template.controls.AudioPlayer', {
 	},
 
 	valueToRaw: function(value) {
+		if (!Z8.isEmpty(value)) {
+			var file = value[0];
+			var sourcePath = `${window.location.href}${file.path}?&session=${Application.session}&id=${file.id}`;
+			var ext = file.path.match(/\.[0-9a-z]+$/i)[0];
+			
+			this.getDom().querySelector('audio').setAttribute('src', sourcePath);
+		}
+	
 		return Z8.isEmpty(value) ? '' : value[0].name;
 	},
 
@@ -25,12 +33,11 @@ Z8.define('org.zenframework.z8.template.controls.AudioPlayer', {
 		var triggers = this.triggers;
 		triggers.push({ icon: 'fa-upload', tooltip: Z8.$('FileBox.uploadAFile'), handler: this.onUploadFile, scope: this });
 		triggers.push({ icon: 'fa-download', tooltip: Z8.$('FileBox.downloadAFile'), handler: this.onDownloadFile, scope: this });
-		triggers.push({ icon: 'fa-download', handler: this.onLoadInPlayer, scope: this, cls: 'onloadinplayer' });
+
 		TextBox.prototype.initTriggers.call(this);
 
 		this.uploadTrigger = this.getTrigger(0);
 		this.downloadTrigger = this.getTrigger(1);
-		this.loadInPlayerTrigger = this.getTrigger(2);
 	},
 
 	completeRender: function() {
@@ -76,10 +83,6 @@ Z8.define('org.zenframework.z8.template.controls.AudioPlayer', {
 	getDownloadTrigger: function() {
 		return this.downloadTrigger;
 	},
-	
-	getonLoadInPlayerTrigger: function() {
-		return this.loadInPlayerTrigger;
-	},
 
 	updateTriggers: function () {
 		if (this.downloadTrigger != null) {
@@ -90,10 +93,6 @@ Z8.define('org.zenframework.z8.template.controls.AudioPlayer', {
 	onUploadFile: function(button) {
 		this.fileInput.value = null;
 		this.fileInput.click();
-		
-		var files = this.getValue();
-		var file = files[0];
-		var path = file.path;
 	},
 
 	onDownloadFile: function(button) {
@@ -110,57 +109,6 @@ Z8.define('org.zenframework.z8.template.controls.AudioPlayer', {
 
 		var file = files[0];
 		DOM.download(file.path, file.id, null, { fn: callback, scope: this });
-		
-		console.log(this);
-		
-		const {record} = this;
-
-		console.log(record);
-		
-		console.log(this.onDownloadFile.$owner);
-		
-		console.log('onLoadInPlayer');
-		var files = this.getValue();
-		var file = files[0];
-		
-		console.log(file.path);
-		console.log(file.id);
-		console.log(Application.session);
-		
-		var sourcePath = `${window.location.href}${file.path}?&session=${Application.session}&id=${file.id}`;
-		
-		console.log(sourcePath);
-		var ext = file.path.match(/\.[0-9a-z]+$/i)[0];
-		console.log(ext);
-		
-		this.getDom().querySelector('audio').setAttribute('src', sourcePath);
-	},
-	
-	onLoadInPlayer: function() {		
-		console.dir(this.onDownloadFile);
-		console.log(this);
-		
-		const {record} = this;
-
-		console.log(record);
-		
-		console.log(this.onDownloadFile.$owner);
-		
-		console.log('onLoadInPlayer');
-		var files = this.getValue();
-		var file = files[0];
-		
-		console.log(file.path);
-		console.log(file.id);
-		console.log(Application.session);
-		
-		var sourcePath = `${window.location.href}${file.path}?&session=${Application.session}&id=${file.id}`;
-		
-		console.log(sourcePath);
-		var ext = file.path.match(/\.[0-9a-z]+$/i)[0];
-		console.log(ext);
-		
-		this.getDom().querySelector('audio').setAttribute('src', sourcePath);
 	},
 
 	onFileInputChange: function() {
@@ -224,13 +172,11 @@ Z8.define('org.zenframework.z8.template.controls.AudioPlayer', {
 
 		var record = this.getRecord();
 		record.attach(this.name, files, { fn: callback, scope: this });
-	},	
+	},
+	
 	afterRender: function() {
 		var player = this.player = document.createElement('audio');
 		player.setAttribute('controls','controls');
 		this.getDom().append(player);
-		this.getonLoadInPlayerTrigger().setBusy(false);
-		console.log(this.getDom().querySelector('.onloadinplayer'));
-		/*this.getDom().querySelector('.onloadinplayer').click();*/
 	}
 });
