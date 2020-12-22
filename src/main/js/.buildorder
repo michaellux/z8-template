@@ -2,9 +2,9 @@ application/Application.js
 application/User.js
 application/Viewport.js
 
+../../../lib/js/prism.js
+
 ui/control/EMail.js
 ui/control/XML.js
 ui/control/Youtube.js
 ui/control/AudioPlayer.js
-
-../../../lib/js/prism.js
