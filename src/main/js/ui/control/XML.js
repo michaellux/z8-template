@@ -58,6 +58,7 @@ Z8.define('org.zenframework.z8.template.controls.XML', {
 		pre.setAttribute('contenteditable', 'true');
 		pre.setAttribute("class", "language-xml-doc");
 		pre.setAttribute("data-linenumber", "0");
+		pre.setAttribute("style"," margin: 0; overflow-y: auto; overflow-x: hidden; height: 100%;");
 		
 		pre.addEventListener('input', function(event){
     		pre.dataset.xmldata = pre.innerText;
