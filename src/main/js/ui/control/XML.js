@@ -9,13 +9,60 @@ Z8.define('org.zenframework.z8.template.controls.XML', {
 	extend: 'Z8.form.field.TextArea',
 	shortClassName: 'XML',
 	
+	// based on https://haseebmajid.dev/blog/make-prismjs-editable/
+	
+	setValue: function(value, displayValue) {
+		this.callParent(value, displayValue);
+		var pre = DOM.selectNode('pre');
+		if (pre !== null) {			
+			pre.innerHTML = Prism.highlight(this.getValue(), Prism.languages.xml, 'xml');
+			pre.setAttribute("title", pre.innerHTML);
+		}
+	},
+	
+	onFocusOut: function(event, target) {
+		var dom = DOM.get(this);
+		target = event.relatedTarget;
+
+		if(dom == target || DOM.isParentOf(dom, target))
+			return false;
+				
+		if(this.autoSave && !this.instantAutoSave) {
+			if(this.isValid()) {				
+				var pre = DOM.selectNode('pre');
+				var xmldata = pre.dataset.xmldata;
+			
+				this.suspendCheckChange--;
+				
+				if (xmldata !== undefined) {
+					this.setValue(xmldata);
+					pre.innerHTML = Prism.highlight(pre.innerText, Prism.languages.xml, 'xml');
+				}
+				
+				this.suspendCheckChange++;
+			} else
+				this.initValue(this.originalValue, this.originalDisplayValue);
+		}
+
+		DOM.removeCls(this, 'focus');
+		this.fireEvent('focusOut', this);
+		
+		return true;
+	},
+		
 	// based on https://jsfiddle.net/tbs36mk7/
 	
 	afterRender: function() {
+		this.callParent();
 		var pre = this.pre = document.createElement('pre');
 		pre.setAttribute('contenteditable', 'true');
 		pre.setAttribute("class", "language-xml-doc");
 		pre.setAttribute("data-linenumber", "0");
+		
+		pre.addEventListener('input', function(event){
+    		pre.dataset.xmldata = pre.innerText;
+  		})
+		
 		var box = this.box = this.getDom().querySelector('.box');
 		var textArea = this.textArea = this.getDom().querySelector('.box textarea');
 		
