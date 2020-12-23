@@ -176,6 +176,7 @@ Z8.define('org.zenframework.z8.template.controls.AudioPlayer', {
 	
 	afterRender: function() {
 		var player = this.player = document.createElement('audio');
+		player.setAttribute("style", "width: 100%;");
 		player.setAttribute('controls','controls');
 		this.getDom().append(player);
 	}
